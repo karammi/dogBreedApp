@@ -6,13 +6,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.asad.dogs.R
 import com.asad.dogs.breedList.domain.model.BreedModel
@@ -23,6 +20,7 @@ import com.asad.dogs.core.presentation.conponent.CustomAppBar
 import com.asad.dogs.core.presentation.conponent.CustomEmptyComponent
 import com.asad.dogs.core.presentation.conponent.CustomErrorComponent
 import com.asad.dogs.core.presentation.conponent.CustomLoadingComponent
+import com.asad.dogs.core.presentation.util.ComposeUtil
 import com.asad.dogs.core.util.SystemUiUtil
 
 @Composable
@@ -33,7 +31,7 @@ fun BreedListScreen(
 ) {
     SystemUiUtil.ConfigStatusBar(color = MaterialTheme.colorScheme.primary)
 
-    val state = viewModel.uiState.collectAsState()
+    val uiState = ComposeUtil.rememberStateWithLifecycle(stateFlow = viewModel.uiState)
 
     val localFocusManager = LocalFocusManager.current
     val context = LocalContext.current
@@ -52,13 +50,13 @@ fun BreedListScreen(
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) {
-        when (state.value.breedModelResponse) {
+        when (uiState.value.breedModelResponse) {
             UiState.Empty -> CustomEmptyComponent()
             is UiState.Error ->
                 CustomErrorComponent(
-                    errorTitle = state.value.breedModelResponse.message
+                    errorTitle = uiState.value.breedModelResponse.message
                         ?: "An error has been occurred!",
                     onRetryClicked = onRetryClick,
                 )
@@ -66,7 +64,7 @@ fun BreedListScreen(
             UiState.Loading -> CustomLoadingComponent()
 
             is UiState.Success -> {
-                val breeds = state.value.breedModelResponse.data ?: emptyList()
+                val breeds = uiState.value.breedModelResponse.data ?: emptyList()
                 BreedListContent(
                     data = breeds,
                     onBreedModelItemClicked = onBreedItemClicked,

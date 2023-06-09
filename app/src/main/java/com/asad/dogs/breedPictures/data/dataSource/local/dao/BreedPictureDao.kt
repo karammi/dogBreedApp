@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.asad.dogs.breedPictures.data.dataSource.local.entity.PictureEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BreedPictureDao {
@@ -23,6 +24,9 @@ interface BreedPictureDao {
 
     @Query("SELECT * FROM tbl_favorite WHERE breedName = :name and breedUrl = :url")
     suspend fun getCurrentBreedPicture(name: String, url: String): PictureEntity
+
+    @Query("SELECT * FROM tbl_favorite WHERE breedName = :name")
+    fun getFavoriteBreedPictures(name: String): Flow<List<PictureEntity>>
 
     @Transaction
     suspend fun addOrDeleteBreedPicture(entity: PictureEntity) {
