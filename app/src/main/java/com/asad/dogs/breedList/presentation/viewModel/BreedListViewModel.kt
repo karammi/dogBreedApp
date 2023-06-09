@@ -10,11 +10,9 @@ import com.asad.dogs.core.util.firstCap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,6 +43,7 @@ class BreedListViewModel @Inject constructor(
 
     /**
      * This method requests server or local database to fetch the breeds.
+     *
      * */
     fun fetchBreeds() {
         viewModelScope.launch {
@@ -52,23 +51,17 @@ class BreedListViewModel @Inject constructor(
                 .invoke()
                 .flowOn(ioDispatcher)
                 .filterNotNull()
-                .stateIn(
-                    viewModelScope,
-                    started = SharingStarted.Eagerly,
-                    initialValue = emptyList(),
-                )
                 .collectLatest {
-                    val formattedBreeds = formatBreedName(it)
-                    val newState =
-                        uiState.value.copy(breedModelResponse = UiState.Success(data = formattedBreeds))
+                    val capitalizedBreeds = capitalizeBreedName(it)
+                    val newState = uiState.value.copy(breedModelResponse = UiState.Success(data = capitalizedBreeds))
                     uiState.emit(newState)
                 }
         }
     }
 
     /**
-     * This method replace first char of breed title to upper case(capitalize it).
+     * This method replace first char of breed title to upper case(capitalize them).
      * */
-    fun formatBreedName(list: List<BreedModel>): List<BreedModel> =
+    fun capitalizeBreedName(list: List<BreedModel>): List<BreedModel> =
         list.map { it.copy(title = it.title.firstCap()) }
 }
