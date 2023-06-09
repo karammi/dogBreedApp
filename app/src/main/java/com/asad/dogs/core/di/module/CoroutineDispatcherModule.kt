@@ -1,26 +1,28 @@
 package com.asad.dogs.core.di.module
 
-import com.asad.dogs.core.di.qualifier.IODispatcher
-import com.asad.dogs.core.di.qualifier.MainDispatcher
+import com.asad.dogs.core.di.qualifier.DefaultDispatcherQualifier
+import com.asad.dogs.core.di.qualifier.IODispatcherQualifier
+import com.asad.dogs.core.di.qualifier.MainDispatcherQualifier
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object CoroutineDispatcherModule {
 
-    @Singleton
     @Provides
-    @IODispatcher
+    @IODispatcherQualifier
     fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
-    @Singleton
     @Provides
-    @MainDispatcher
+    @MainDispatcherQualifier
     fun provideMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
+
+    @Provides
+    @DefaultDispatcherQualifier
+    fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 }
