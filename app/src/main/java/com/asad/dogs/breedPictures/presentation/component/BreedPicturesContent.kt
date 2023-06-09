@@ -1,5 +1,8 @@
 package com.asad.dogs.breedPictures.presentation.component
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,7 +15,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.asad.dogs.core.presentation.conponent.CustomNetworkImage
 import com.asad.dogs.favoritePictures.domain.model.FavoritePictureModel
 
@@ -41,7 +46,14 @@ fun BreedPicturesContent(
                         onImageClicked = onBreedPictureClicked,
                         contentDescription = "breed_picture_$index",
                     )
-                    if (value.isFavorite) {
+                    AnimatedVisibility(
+                        visible = value.isFavorite,
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                        modifier = Modifier
+                            .zIndex(1f)
+                            .graphicsLayer(),
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Favorite,
                             tint = MaterialTheme.colorScheme.error,

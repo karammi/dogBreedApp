@@ -8,14 +8,14 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class AddBreedPictureUseCaseTest {
+class ToggleBreedPictureUseCaseTest {
 
     val repository = mockk<BreedPictureRepository>()
-    lateinit var addBreedPictureUseCase: AddBreedPictureUseCase
+    lateinit var toggleBreedPictureUseCase: ToggleBreedPictureUseCase
 
     @Before
     fun setup() {
-        addBreedPictureUseCase = AddBreedPictureUseCase(repository)
+        toggleBreedPictureUseCase = ToggleBreedPictureUseCase(repository)
     }
 
     @Test
@@ -24,14 +24,14 @@ class AddBreedPictureUseCaseTest {
         val breedUrl = "fake_url"
 
         coEvery {
-            repository.addBreedPicture(
+            repository.toggleBreedPicture(
                 breedName = breedName,
                 breedUrl = breedUrl,
             )
         } returns Unit
 
-        addBreedPictureUseCase.invoke(breedName = breedName, breedUrl = breedUrl)
+        toggleBreedPictureUseCase.invoke(breedName = breedName, breedUrl = breedUrl)
 
-        coVerify(exactly = 1) { repository.addBreedPicture(breedUrl = breedUrl, breedName = breedUrl) }
+        coVerify(exactly = 1) { repository.toggleBreedPicture(breedUrl = breedUrl, breedName = breedUrl) }
     }
 }

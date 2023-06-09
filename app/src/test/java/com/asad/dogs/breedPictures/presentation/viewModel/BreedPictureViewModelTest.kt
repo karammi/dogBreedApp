@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.asad.core.util.MainDispatcherRule
 import com.asad.dogs.breedPictures.domain.model.BreedPictureResponse
-import com.asad.dogs.breedPictures.domain.usecase.AddBreedPictureUseCase
+import com.asad.dogs.breedPictures.domain.usecase.ToggleBreedPictureUseCase
 import com.asad.dogs.breedPictures.domain.usecase.FetchBreedPicturesUseCase
 import com.asad.dogs.core.data.dataSource.DataResult
 import com.asad.dogs.core.data.util.ResponseStatus
@@ -27,7 +27,7 @@ class BreedPictureViewModelTest {
     lateinit var viewModel: BreedPictureViewModel
 
     val fetchBreedPicturesUseCase = mockk<FetchBreedPicturesUseCase>()
-    val addBreedPictureUseCase = mockk<AddBreedPictureUseCase>()
+    val toggleBreedPictureUseCase = mockk<ToggleBreedPictureUseCase>()
 //    val savedStateHandle = mockk<SavedStateHandle>(relaxUnitFun = true, relaxed = true)
 
     @Before
@@ -37,7 +37,7 @@ class BreedPictureViewModelTest {
 
         viewModel = BreedPictureViewModel(
             fetchBreedPicturesUseCase,
-            addBreedPictureUseCase,
+            toggleBreedPictureUseCase,
             savedStateHandle,
             StandardTestDispatcher(mainDispatcherRule.testDispatcher.scheduler),
         )
@@ -54,7 +54,7 @@ class BreedPictureViewModelTest {
         )
         viewModel = BreedPictureViewModel(
             fetchBreedPicturesUseCase,
-            addBreedPictureUseCase,
+            toggleBreedPictureUseCase,
             savedStateHandle,
             StandardTestDispatcher(mainDispatcherRule.testDispatcher.scheduler),
         )

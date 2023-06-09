@@ -34,7 +34,7 @@ fun BreedModelItem(breedModel: BreedModel, onItemClicked: (BreedModel) -> Unit) 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .requiredHeight(300.dp)
+            .requiredHeight(250.dp)
             .padding(8.dp)
             .clip(RoundedCornerShape(16.dp))
             .semantics {
@@ -63,16 +63,19 @@ fun BreedModelItem(breedModel: BreedModel, onItemClicked: (BreedModel) -> Unit) 
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.semantics {
                         contentDescription = "breed_model_title"
-                    }
+                    },
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text(
-                    text = "${breedModel.subBreeds.size}",
-                    color = Color.Black,
-                    style = MaterialTheme.typography.labelMedium,
-                )
+                if (breedModel.subBreeds.isNotEmpty()) {
+                    Text(
+                        text = "Has ${breedModel.subBreeds.size} sub breeds",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.labelMedium,
+
+                    )
+                }
             }
         }
     }

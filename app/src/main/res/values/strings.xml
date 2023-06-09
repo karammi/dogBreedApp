@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dogs App</string>
+    <string name="app_name">Dog Breeds App</string>
     <string name="favorite_title_screen">"My Favorite Breeds"</string>
     <string name="error_default_message">"Ops! An error has occurred!"</string>
     <string name="filter_favorite_breeds">"Filter your favorite breeds</string>

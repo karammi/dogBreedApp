@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface BreedPictureLocalDataSource {
 
-    suspend fun addBreedPicture(breedName: String, breedUrl: String)
+    suspend fun toggleBreedPicture(breedName: String, breedUrl: String)
 
     suspend fun getFavoriteBreedPictures(name: String): Flow<List<PictureEntity>>
 }

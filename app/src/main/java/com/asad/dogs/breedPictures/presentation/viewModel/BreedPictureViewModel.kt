@@ -3,7 +3,7 @@ package com.asad.dogs.breedPictures.presentation.viewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.asad.dogs.breedPictures.domain.usecase.AddBreedPictureUseCase
+import com.asad.dogs.breedPictures.domain.usecase.ToggleBreedPictureUseCase
 import com.asad.dogs.breedPictures.domain.usecase.FetchBreedPicturesUseCase
 import com.asad.dogs.breedPictures.presentation.util.BreedPictureConstants
 import com.asad.dogs.core.data.dataSource.DataResult
@@ -27,7 +27,7 @@ private const val TAG = "BreedPictureViewModel"
 @HiltViewModel
 class BreedPictureViewModel @Inject constructor(
     private val fetchBreedPicturesUseCase: FetchBreedPicturesUseCase,
-    private val addBreedPictureUseCase: AddBreedPictureUseCase,
+    private val toggleBreedPictureUseCase: ToggleBreedPictureUseCase,
     private val savedStateHandle: SavedStateHandle,
     @IODispatcherQualifier private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
@@ -82,7 +82,7 @@ class BreedPictureViewModel @Inject constructor(
 
     fun onBreedPictureClicked(breedName: String, breedPictureUrl: String) {
         viewModelScope.launch(ioDispatcher) {
-            addBreedPictureUseCase.invoke(
+            toggleBreedPictureUseCase.invoke(
                 breedName = breedName.lowercase(),
                 breedUrl = breedPictureUrl,
             )
