@@ -1,5 +1,7 @@
 package com.asad.dogs.breedPictures.di.module
 
+import com.asad.dogs.breedPictures.data.dataSource.local.BreedPictureLocalDataSource
+import com.asad.dogs.breedPictures.data.dataSource.local.BreedPictureLocalDataSourceImpl
 import com.asad.dogs.breedPictures.data.dataSource.remote.BreedPictureRemoteDataSource
 import com.asad.dogs.breedPictures.data.dataSource.remote.BreedPictureRemoteDataSourceImpl
 import com.asad.dogs.breedPictures.data.repository.BreedPictureRepositoryImpl
@@ -16,6 +18,9 @@ abstract class BreedPictureBinderModule {
     @Binds
     abstract fun bindBreedPictureRemoteDataSource(breedPictureRemoteDataSource: BreedPictureRemoteDataSourceImpl):
         BreedPictureRemoteDataSource
+
+    @Binds
+    abstract fun bindBreedPictureLocalDataSource(breedFavoriteLocalDataSource: BreedPictureLocalDataSourceImpl): BreedPictureLocalDataSource
 
     @Binds
     abstract fun bindBreedPictureRepository(breedPictureRepository: BreedPictureRepositoryImpl): BreedPictureRepository

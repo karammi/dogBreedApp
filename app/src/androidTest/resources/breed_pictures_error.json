@@ -1,0 +1,5 @@
+{
+  "status": "error",
+  "message": "Breed not found (master breed does not exist)",
+  "code": 404
+}

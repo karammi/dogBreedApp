@@ -6,6 +6,6 @@ import retrofit2.http.Path
 
 interface BreedPictureApi {
 
-    @GET("breed/{dogBreedName}/images")
-    suspend fun fetchBreedPictures(@Path("dogBreedName") dogBreedName: String): BreedPictureResponseModel
+    @GET("breed/{breedName}/images")
+    suspend fun fetchBreedPictures(@Path("breedName") breedName: String): BreedPictureResponseModel
 }
