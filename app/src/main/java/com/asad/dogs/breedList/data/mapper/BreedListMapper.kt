@@ -6,8 +6,8 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 /**
- * this class is used to map [Map<String, List<String>] server response data
- * to List<Breed> to use in domain and upper layers
+ * This mapper class is responsible for mapping the server response to domain model objects within the app.
+ * map [Map<String, List<String>] server response data to a [List<Breed>] to use in domain and upper layers
  *
  * @params: entity: Map<String, List<String>>
  * @return: List<Breed>

@@ -7,6 +7,10 @@ import com.asad.dogs.core.data.dataSource.DataResult
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
+/**
+ * An implementation of the repository interface, responsible for fetching data from the data source
+ *
+ * */
 @ViewModelScoped
 class BreedListRemoteDataSourceImpl @Inject constructor(
     private val breedsApi: BreedListApi,

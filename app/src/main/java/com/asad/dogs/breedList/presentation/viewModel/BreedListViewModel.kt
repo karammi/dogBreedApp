@@ -16,9 +16,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG = "BreedListViewModel"
-
 /**
+ * A ViewModel class that provides data and handles user interactions for the dog breeds screen
  * This class contains all of the [BreedListScreen] functionalities
  * */
 @HiltViewModel
@@ -41,10 +40,7 @@ class BreedListViewModel @Inject constructor(
         }
     }
 
-    /**
-     * This method requests server or local database to fetch the breeds.
-     *
-     * */
+    /** This method requests server or local database to fetch the breeds.*/
     fun fetchBreeds() {
         viewModelScope.launch {
             fetchBreedListUseCase
@@ -53,7 +49,8 @@ class BreedListViewModel @Inject constructor(
                 .filterNotNull()
                 .collectLatest {
                     val capitalizedBreeds = capitalizeBreedName(it)
-                    val newState = uiState.value.copy(breedModelResponse = UiState.Success(data = capitalizedBreeds))
+                    val newState =
+                        uiState.value.copy(breedModelResponse = UiState.Success(data = capitalizedBreeds))
                     uiState.emit(newState)
                 }
         }

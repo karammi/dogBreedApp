@@ -68,10 +68,10 @@ class BreedPictureRepositoryImpl @Inject constructor(
             }
     }
 
-    override suspend fun addBreedPicture(breedName: String, breedUrl: String) {
+    override suspend fun toggleBreedPicture(breedName: String, breedUrl: String) {
         withContext(ioDispatcher) {
             localDatabase
-                .addBreedPicture(breedName = breedName, breedUrl = breedUrl)
+                .toggleBreedPicture(breedName = breedName, breedUrl = breedUrl)
         }
     }
 

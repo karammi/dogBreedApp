@@ -10,9 +10,9 @@ import javax.inject.Inject
 class BreedPictureLocalDataSourceImpl @Inject constructor(
     private val breedPictureDao: BreedPictureDao,
 ) : BreedPictureLocalDataSource {
-    override suspend fun addBreedPicture(breedName: String, breedUrl: String) {
+    override suspend fun toggleBreedPicture(breedName: String, breedUrl: String) {
         breedPictureDao
-            .addOrDeleteBreedPicture(
+            .toggleBreedPicture(
                 entity = PictureEntity(
                     breedName = breedName,
                     breedUrl = breedUrl,
