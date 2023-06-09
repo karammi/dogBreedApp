@@ -7,8 +7,8 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 /**
- * This class is used to map [BreedResponseModel] server response to
- * to [BreedResponse] which is used in domain and upper layers
+ * This mapper class is responsible for mapping the server response to domain model objects within the app.
+ * map [BreedResponseModel] server response to [BreedResponse] which is used in domain and upper layers
  * it also uses [BreedListMapper] to map breed list data
  *
  * @params: BreedResponseModel

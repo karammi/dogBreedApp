@@ -29,7 +29,7 @@ interface BreedPictureDao {
     fun getFavoriteBreedPictures(name: String): Flow<List<PictureEntity>>
 
     @Transaction
-    suspend fun addOrDeleteBreedPicture(entity: PictureEntity) {
+    suspend fun toggleBreedPicture(entity: PictureEntity) {
         val isBreedPictureFavorite = getCurrentBreedPicture(entity.breedName, entity.breedUrl)
         if (isBreedPictureFavorite != null) {
             deleteBreedPicture(entity)

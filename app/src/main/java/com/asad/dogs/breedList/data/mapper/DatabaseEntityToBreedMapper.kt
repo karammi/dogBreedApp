@@ -8,7 +8,8 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 /**
- * this class is used to map database [BreedEntity] to domain [BreedModel] model
+ * This mapper class is responsible for mapping the database result to domain model objects within the app.
+ * map database [BreedEntity] to domain [BreedModel] model
  * */
 @ViewModelScoped
 class DatabaseEntityToBreedMapper @Inject constructor() :
