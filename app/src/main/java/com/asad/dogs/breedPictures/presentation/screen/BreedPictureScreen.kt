@@ -3,7 +3,7 @@ package com.asad.dogs.breedPictures.presentation.screen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -15,6 +15,7 @@ import com.asad.dogs.core.presentation.conponent.CustomAppBar
 import com.asad.dogs.core.presentation.conponent.CustomEmptyComponent
 import com.asad.dogs.core.presentation.conponent.CustomErrorComponent
 import com.asad.dogs.core.presentation.conponent.CustomLoadingComponent
+import com.asad.dogs.core.presentation.util.ComposeUtil
 
 @Composable
 fun BreedPictureScreen(
@@ -22,7 +23,7 @@ fun BreedPictureScreen(
     viewModel: BreedPictureViewModel = hiltViewModel(),
     onNavigationUp: () -> Unit,
 ) {
-    val state = viewModel.uiState.collectAsState()
+    val uiState by ComposeUtil.rememberStateWithLifecycle(stateFlow = viewModel.uiState)
 
     val onBreedPictureClicked: (String) -> Unit = { url ->
         viewModel.onBreedPictureClicked(breedName = breed, breedPictureUrl = url)
@@ -31,17 +32,20 @@ fun BreedPictureScreen(
     val onRetryClicked: () -> Unit = { viewModel.fetchBreedPictures() }
 
     Box(modifier = Modifier.fillMaxSize().semantics { contentDescription = "BreedPictureScreen" }) {
-        when (state.value.breedPictures) {
+        when (uiState.breedPictures) {
             UiState.Empty -> CustomEmptyComponent()
             is UiState.Error -> CustomErrorComponent(
-                errorTitle = state.value.breedPictures.message ?: "Ops, error occurred!!",
+                errorTitle = uiState.breedPictures.message ?: "Ops, error occurred!!",
                 onRetryClicked = onRetryClicked,
             )
 
             UiState.Loading -> CustomLoadingComponent()
             is UiState.Success -> {
-                val data = state.value.breedPictures.data?.message ?: emptyList()
-                BreedPicturesContent(breedPictureList = data, onBreedPictureClicked = onBreedPictureClicked)
+                val data = uiState.breedPictures.data ?: emptyList()
+                BreedPicturesContent(
+                    breedPictureList = data,
+                    onBreedPictureClicked = onBreedPictureClicked,
+                )
             }
         }
 
