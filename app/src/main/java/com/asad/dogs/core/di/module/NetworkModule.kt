@@ -1,5 +1,6 @@
 package com.asad.dogs.core.di.module
 
+import com.asad.dogs.core.data.dataSource.remote.model.CustomNetworkException
 import com.squareup.moshi.Moshi
 import dagger.Lazy
 import dagger.Module
@@ -7,7 +8,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -32,11 +35,7 @@ object NetworkModule {
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor()
             .apply {
-//                if (BuildConfig.DEBUG) {
-                    setLevel(HttpLoggingInterceptor.Level.BODY)
-//                } else {
-//                    setLevel(HttpLoggingInterceptor.Level.NONE)
-//                }
+                setLevel(HttpLoggingInterceptor.Level.BODY)
             }
 
     @Provides
@@ -63,5 +62,11 @@ object NetworkModule {
             .callFactory { okHttpClient.get().newCall(it) }
             .addConverterFactory(moshiConverterFactory)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofitErrorConverter(retrofit: Retrofit): Converter<ResponseBody, CustomNetworkException> {
+        return retrofit.responseBodyConverter(CustomNetworkException::class.java, arrayOf())
     }
 }

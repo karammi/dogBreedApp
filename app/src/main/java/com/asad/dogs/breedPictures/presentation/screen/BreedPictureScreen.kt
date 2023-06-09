@@ -1,60 +1,50 @@
 package com.asad.dogs.breedPictures.presentation.screen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asad.dogs.breedPictures.presentation.component.BreedPicturesContent
 import com.asad.dogs.breedPictures.presentation.viewModel.BreedPictureViewModel
-import com.asad.dogs.core.presentation.CustomNetworkImage
+import com.asad.dogs.core.presentation.UiState
+import com.asad.dogs.core.presentation.conponent.CustomAppBar
+import com.asad.dogs.core.presentation.conponent.CustomEmptyComponent
+import com.asad.dogs.core.presentation.conponent.CustomErrorComponent
+import com.asad.dogs.core.presentation.conponent.CustomLoadingComponent
 
 @Composable
 fun BreedPictureScreen(
     breed: String,
     viewModel: BreedPictureViewModel = hiltViewModel(),
+    onNavigationUp: () -> Unit,
 ) {
-    // This is supposed the be run only once
-    LaunchedEffect(key1 = true) {
-        viewModel.fetchDogBreedPictures(breedName = breed)
-    }
-
     val state = viewModel.uiState.collectAsState()
 
-    val onImageClicked: (String) -> Unit = { url ->
-        viewModel.onBreedPictureClicked(url)
+    val onBreedPictureClicked: (String) -> Unit = { url ->
+        viewModel.onBreedPictureClicked(breedName = breed, breedPictureUrl = url)
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        state.value.breedPictureResponse.data?.message?.let {
-            BreedPictureItemContent(
-                list = it,
-                onItemClicked = onImageClicked,
+    val onRetryClicked: () -> Unit = { viewModel.fetchBreedPictures() }
+
+    Box(modifier = Modifier.fillMaxSize().semantics { contentDescription = "BreedPictureScreen" }) {
+        when (state.value.breedPictures) {
+            UiState.Empty -> CustomEmptyComponent()
+            is UiState.Error -> CustomErrorComponent(
+                errorTitle = state.value.breedPictures.message ?: "Ops, error occurred!!",
+                onRetryClicked = onRetryClicked,
             )
-        }
-    }
-}
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun BreedPictureItemContent(list: List<String>, onItemClicked: (String) -> Unit) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(3),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        content = {
-            items(list.size) { index ->
-                CustomNetworkImage(
-                    url = list[index],
-                    onImageClicked = onItemClicked,
-                )
+            UiState.Loading -> CustomLoadingComponent()
+            is UiState.Success -> {
+                val data = state.value.breedPictures.data?.message ?: emptyList()
+                BreedPicturesContent(breedPictureList = data, onBreedPictureClicked = onBreedPictureClicked)
             }
-        },
-        modifier = Modifier.fillMaxSize(),
-    )
+        }
+
+        CustomAppBar(title = breed, onNavigateUp = onNavigationUp)
+    }
 }

@@ -1,5 +1,7 @@
 package com.asad.dogs.breedList.di
 
+import com.asad.dogs.breedList.data.dataSource.local.BreedListLocalDataSource
+import com.asad.dogs.breedList.data.dataSource.local.BreedListLocalDataSourceImpl
 import com.asad.dogs.breedList.data.dataSource.remote.BreedListRemoteDataSource
 import com.asad.dogs.breedList.data.dataSource.remote.BreedListRemoteDataSourceImpl
 import com.asad.dogs.breedList.data.repository.BreedListRepositoryImpl
@@ -15,6 +17,9 @@ abstract class BreedListBinderModule {
 
     @Binds
     abstract fun bindBreedListRemoteDataSource(breedListRemoteDataSource: BreedListRemoteDataSourceImpl): BreedListRemoteDataSource
+
+    @Binds
+    abstract fun bindBreedListLocalDataSource(breedListLocalDataSource: BreedListLocalDataSourceImpl): BreedListLocalDataSource
 
     @Binds
     abstract fun bindBreedListRepository(breedListRepository: BreedListRepositoryImpl): BreedListRepository
