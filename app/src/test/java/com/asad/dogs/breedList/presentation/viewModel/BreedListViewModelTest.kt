@@ -71,7 +71,7 @@ class BreedListViewModelTest {
 
         /** Assert*/
         assertThat(viewModel.uiState.value.breedModelResponse.data?.size).isEqualTo(2)
-        val expectedUiState = UiState.Success(data = viewModel.capitalizeBreedName(data))
+        val expectedUiState = UiState.Success(data = viewModel.formatBreedName(data))
         assertThat(viewModel.uiState.value.breedModelResponse).isEqualTo(expectedUiState)
     }
 
@@ -97,7 +97,7 @@ class BreedListViewModelTest {
         )
         advanceUntilIdle()
         /** Act*/
-        val formattedData = viewModel.capitalizeBreedName(data)
+        val formattedData = viewModel.formatBreedName(data)
 
         /** Assert*/
         val expectedUiState = UiState.Success(data = formattedData)

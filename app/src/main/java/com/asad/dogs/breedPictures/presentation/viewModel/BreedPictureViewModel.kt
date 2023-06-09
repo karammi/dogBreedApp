@@ -1,24 +1,17 @@
 package com.asad.dogs.breedPictures.presentation.viewModel
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asad.dogs.breedPictures.domain.usecase.AddBreedPictureUseCase
 import com.asad.dogs.breedPictures.domain.usecase.FetchBreedPicturesUseCase
-import com.asad.dogs.breedPictures.presentation.util.BreedPictureConstants
 import com.asad.dogs.core.data.dataSource.DataResult
 import com.asad.dogs.core.di.qualifier.IODispatcherQualifier
 import com.asad.dogs.core.presentation.UiState
-import com.asad.dogs.favoritePictures.domain.model.FavoritePictureModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,46 +29,33 @@ class BreedPictureViewModel @Inject constructor(
         private set
 
     init {
-        observerBreedPicturesFlow()
+        Log.d(TAG, "init of : BreedPictureViewModel")
         fetchBreedPictures()
     }
 
-    /**
-     *  --> stateIn operator
-     * This operator avoids restarting the upstream flow in certain situations such as configuration changes.
-     * This tip is especially helpful when upstream flows are expensive to create and
-     * when these operators are used in ViewModels.
-     *
-     * fetching data from remote api and local database and then combine them is a bit more heavy
-     * operation, because of that during config change i want to prevent fetch data again using
-     * SharingStarted.WhileSubscribed(5000)
-     * Most of the time to keep the upstream flow active for 5 seconds more after the disappearance
-     * of the last collector
-     * */
-    private fun observerBreedPicturesFlow() {
-        viewModelScope.launch {
-            fetchBreedPicturesUseCase
-                .observeDataFlow()
-                .catch { exception -> processCaughtException(exception = exception) }
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = null,
-                )
-                .filterNotNull()
-                .flowOn(ioDispatcher)
-                .collectLatest { result ->
-                    processBreedPicturesResponse(result)
-                }
-        }
-    }
-
     fun fetchBreedPictures() {
-        val breedName = savedStateHandle.get<String>(BreedPictureConstants.BREED_NAME)
+        val breedName = savedStateHandle.get<String>("breedName")
+        Log.d(TAG, "fetchBreedPictures: $breedName")
         breedName?.let { breed ->
             viewModelScope.launch {
-                fetchBreedPicturesUseCase
-                    .invoke(breed.lowercase())
+                val response = fetchBreedPicturesUseCase(breed = breed.lowercase())
+                Log.d(TAG, "fetchBreedPictures: $response")
+                when (response) {
+                    is DataResult.Error -> {
+                        val newState =
+                            uiState.value.copy(breedPictures = UiState.Error(message = response.exception.message))
+                        uiState.emit(newState)
+                    }
+
+                    is DataResult.Success -> {
+                        val newState =
+                            uiState.value.copy(
+                                breedPictures = UiState.Success(data = response.value),
+                            )
+
+                        uiState.emit(newState)
+                    }
+                }
             }
         }
     }
@@ -87,33 +67,5 @@ class BreedPictureViewModel @Inject constructor(
                 breedUrl = breedPictureUrl,
             )
         }
-    }
-
-    private suspend fun processBreedPicturesResponse(result: DataResult<List<FavoritePictureModel>>) {
-        when (result) {
-            is DataResult.Error -> {
-                val newState =
-                    uiState.value.copy(breedPictures = UiState.Error(message = result.exception.message))
-                uiState.emit(newState)
-            }
-
-            is DataResult.Success -> {
-                val newState =
-                    uiState.value.copy(
-                        breedPictures = UiState.Success(data = result.value),
-                    )
-
-                uiState.emit(newState)
-            }
-        }
-    }
-
-    private suspend fun processCaughtException(exception: Throwable) {
-        val newState = uiState.value.copy(
-            breedPictures = UiState.Error(
-                message = exception.message ?: exception.localizedMessage,
-            ),
-        )
-        uiState.emit(newState)
     }
 }
