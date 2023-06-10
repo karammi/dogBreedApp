@@ -21,7 +21,6 @@ class DatabaseEntityToBreedMapper @Inject constructor() :
             title = entity.title,
             subBreeds = subBreedList,
             hasSubBreed = subBreedList.isNotEmpty(),
-            isFavorite = entity.isFavorite,
         )
     }
 }

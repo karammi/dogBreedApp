@@ -18,8 +18,9 @@ import com.asad.dogs.core.presentation.conponent.CustomEmptyComponent
 import com.asad.dogs.core.presentation.conponent.CustomErrorComponent
 import com.asad.dogs.core.presentation.conponent.CustomLoadingComponent
 import com.asad.dogs.core.presentation.util.ComposeUtil
-import com.asad.dogs.favoritePictures.presentation.component.FavoriteBreedsBottomSheetContent
+import com.asad.dogs.favoritePictures.presentation.sheet.FavoriteBreedsBottomSheetContent
 import com.asad.dogs.favoritePictures.presentation.component.FavoritePictureContent
+import com.asad.dogs.favoritePictures.presentation.component.FavoritePictureIconComponent
 import com.asad.dogs.favoritePictures.presentation.viewModel.FavoritePictureViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -66,6 +67,7 @@ fun FavoritePictureScreen(
             title = stringResource(id = R.string.favorite_title_screen),
             onNavigateUp = onNavigationUp,
             onIconClicked = { onFilterIconClicked.invoke(true) },
+            trailingContent = { FavoritePictureIconComponent() },
         )
 
         if (uiState.value.isFilterSheetVisible) {

@@ -11,5 +11,4 @@ data class BreedEntity(
     @ColumnInfo(name = BreedListConstants.BREED_TITLE_COLUMN)
     val title: String,
     @ColumnInfo(name = BreedListConstants.SUB_BREEDS_COLUMN) val subBreeds: String,
-    @ColumnInfo(name = BreedListConstants.IS_FAVORITE_COLUMN) val isFavorite: Boolean,
 )

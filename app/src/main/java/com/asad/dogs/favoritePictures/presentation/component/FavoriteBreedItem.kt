@@ -6,12 +6,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.asad.dogs.core.util.firstCap
 import com.asad.dogs.favoritePictures.domain.model.FavoritePictureResponse
 
 @Composable
@@ -29,9 +30,12 @@ fun FilterBreedItem(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            text = breed.title ?: "breed",
-            style = MaterialTheme.typography.h6,
+            text = breed.title?.firstCap() ?: "breed",
+            style = MaterialTheme.typography.titleLarge,
         )
-        Text(text = "${breed.urls?.size} favorite breed")
+        Text(
+            text = "${breed.urls?.size} favorite breed",
+            color = MaterialTheme.colorScheme.primary,
+        )
     }
 }

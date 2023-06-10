@@ -74,7 +74,6 @@ class BreedListRepositoryImpl @Inject constructor(
                     BreedEntity(
                         title = breed.title,
                         subBreeds = convertSubBreedsToString(breed.subBreeds),
-                        isFavorite = breed.isFavorite,
                     )
                 } ?: emptyList()
         }

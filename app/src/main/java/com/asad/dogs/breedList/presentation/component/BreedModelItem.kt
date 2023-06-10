@@ -70,7 +70,7 @@ fun BreedModelItem(breedModel: BreedModel, onItemClicked: (BreedModel) -> Unit) 
 
                 if (breedModel.subBreeds.isNotEmpty()) {
                     Text(
-                        text = "Has ${breedModel.subBreeds.size} sub breeds",
+                        text = "Has ${breedModel.subBreeds.size} sub breed",
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.labelMedium,
 
@@ -89,7 +89,6 @@ fun BreedItemPreview() {
             title = "Akita",
             subBreeds = emptyList(),
             hasSubBreed = false,
-            isFavorite = false,
         ),
         onItemClicked = {},
     )

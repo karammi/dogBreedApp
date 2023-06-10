@@ -1,4 +1,4 @@
-package com.asad.dogs.favoritePictures.presentation.component
+package com.asad.dogs.favoritePictures.presentation.sheet
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.asad.dogs.favoritePictures.domain.model.FavoritePictureResponse
+import com.asad.dogs.favoritePictures.presentation.component.FilterBreedItem
+import com.asad.dogs.favoritePictures.presentation.component.FilterFavoritePictureHeaderSheet
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
