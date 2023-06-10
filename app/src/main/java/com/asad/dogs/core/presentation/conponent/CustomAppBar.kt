@@ -220,7 +220,7 @@ fun CustomAppBarPreview() {
                         .requiredHeight(48.dp),
                     tint = MaterialTheme.colorScheme.primary,
                 )
-            }
+            },
         )
     }
 }
