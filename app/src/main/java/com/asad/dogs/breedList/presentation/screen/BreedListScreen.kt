@@ -2,6 +2,7 @@ package com.asad.dogs.breedList.presentation.screen
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.asad.dogs.R
 import com.asad.dogs.breedList.domain.model.BreedModel
 import com.asad.dogs.breedList.presentation.component.BreedListContent
+import com.asad.dogs.breedList.presentation.component.BreedListFavoriteIconComponent
 import com.asad.dogs.breedList.presentation.viewModel.BreedListViewModel
 import com.asad.dogs.core.presentation.UiState
 import com.asad.dogs.core.presentation.conponent.CustomAppBar
@@ -50,7 +52,8 @@ fun BreedListScreen(
 
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.surface),
     ) {
         when (uiState.value.breedModelResponse) {
             UiState.Empty -> CustomEmptyComponent()
@@ -75,6 +78,7 @@ fun BreedListScreen(
         CustomAppBar(
             title = stringResource(id = R.string.app_name),
             onIconClicked = onNavigateToFavorite,
+            trailingContent = { BreedListFavoriteIconComponent() },
         )
     }
 }

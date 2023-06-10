@@ -50,6 +50,7 @@ fun BoxScope.CustomAppBar(
     onNavigateUp: (() -> Unit)? = null,
     isTransparent: Boolean = false,
     onIconClicked: (() -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
 ) {
     /**
      * This will be updated only when [isTransparent] changes
@@ -127,14 +128,7 @@ fun BoxScope.CustomAppBar(
 
             onIconClicked?.let {
                 CustomTouchableScale(onClick = it) {
-                    Icon(
-                        imageVector = Icons.Rounded.Favorite,
-                        contentDescription = "favorite_icon",
-                        modifier = Modifier
-                            .requiredWidth(24.dp)
-                            .requiredHeight(48.dp),
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
+                    trailingContent?.invoke()
                 }
             }
         }
@@ -217,6 +211,16 @@ fun CustomAppBarPreview() {
             onNavigateUp = {},
             isTransparent = false,
             onIconClicked = null,
+            trailingContent = {
+                Icon(
+                    imageVector = Icons.Rounded.Favorite,
+                    contentDescription = "favorite_icon",
+                    modifier = Modifier
+                        .requiredWidth(24.dp)
+                        .requiredHeight(48.dp),
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
         )
     }
 }
