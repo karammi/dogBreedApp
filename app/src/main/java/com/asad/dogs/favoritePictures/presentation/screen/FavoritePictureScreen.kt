@@ -65,7 +65,7 @@ fun FavoritePictureScreen(
 
         CustomAppBar(
             title = stringResource(id = R.string.favorite_title_screen),
-            onNavigateUp = onNavigationUp,
+//            onNavigateUp = onNavigationUp,
             onIconClicked = { onFilterIconClicked.invoke(true) },
             trailingContent = { FavoritePictureIconComponent() },
         )
