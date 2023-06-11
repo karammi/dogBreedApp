@@ -180,6 +180,8 @@ class BreedListFavoriteScenarioTest {
                     .fetchSemanticsNodes()
                     .size == 1
             }
+
+            // todo should add check item size is correct
         }
     }
 }

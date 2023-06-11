@@ -25,7 +25,7 @@ class BreedListViewModelTest {
     private val fetchBreedListUseCase = mockk<FetchBreedListUseCase>()
 
     @Test
-    fun whenInitialUiState_shouldBeLoadingState() = runTest {
+    fun whenInitialUiState_shouldEmitLoadingState() = runTest {
         val expectedUiState = UiState.Loading
 
         coEvery { fetchBreedListUseCase.invoke() } returns flow {
@@ -47,14 +47,14 @@ class BreedListViewModelTest {
     }
 
     @Test
-    fun whenInitialUiState_shouldObserveData() = runTest {
+    fun whenBreedListIsReady_shouldUpdatedUiState() = runTest {
         /**Arrange*/
         val breed = BreedModel(
-            title = "Kos khar",
-            subBreeds = listOf("akhond", "kiri"),
+            title = "Akita",
+            subBreeds = listOf("test1", "test2"),
             hasSubBreed = true,
-            isFavorite = false,
         )
+        val expectedValue = 2
 
         val data = listOf(breed, breed)
 
@@ -70,38 +70,42 @@ class BreedListViewModelTest {
         advanceUntilIdle()
 
         /** Assert*/
-        assertThat(viewModel.uiState.value.breedModelResponse.data?.size).isEqualTo(2)
+        assertThat(viewModel.uiState.value.breedModelResponse.data?.size).isEqualTo(expectedValue)
         val expectedUiState = UiState.Success(data = viewModel.capitalizeBreedName(data))
         assertThat(viewModel.uiState.value.breedModelResponse).isEqualTo(expectedUiState)
     }
 
     @Test
-    fun whenInitialUiState_shouldFormatBreedNameList() = runTest {
+    fun whenBreedListIsReady_shouldBeCapitalizeBreedListNames() = runTest {
         /**Arrange*/
         val breed = BreedModel(
-            title = "kos khar",
-            subBreeds = listOf("akhond", "kiri"),
+            title = "Akita",
+            subBreeds = listOf("test1", "test2"),
             hasSubBreed = true,
-            isFavorite = false,
         )
 
         val data = listOf(breed, breed)
+        val expectedValue = 2
 
-        coEvery { fetchBreedListUseCase.invoke() } returns flow {
-            emit(data)
-        }
+        coEvery { fetchBreedListUseCase.invoke() } returns flow { emit(data) }
 
         viewModel = BreedListViewModel(
             fetchBreedListUseCase,
             StandardTestDispatcher(mainDispatcherRule.testDispatcher.scheduler),
         )
+
+        /**
+         * because run test is used StandardTestDispatcher, we should advanceUntilIdle to run
+         * coroutines inside queue
+         **/
         advanceUntilIdle()
+
         /** Act*/
         val formattedData = viewModel.capitalizeBreedName(data)
 
         /** Assert*/
         val expectedUiState = UiState.Success(data = formattedData)
-        assertThat(viewModel.uiState.value.breedModelResponse.data?.size).isEqualTo(2)
+        assertThat(viewModel.uiState.value.breedModelResponse.data?.size).isEqualTo(expectedValue)
         assertThat(viewModel.uiState.value.breedModelResponse).isEqualTo(expectedUiState)
     }
 }

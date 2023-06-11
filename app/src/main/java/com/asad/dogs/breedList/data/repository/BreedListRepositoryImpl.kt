@@ -30,6 +30,15 @@ class BreedListRepositoryImpl @Inject constructor(
     private val databaseEntityToBreedMapper: DatabaseEntityToBreedMapper,
     @IODispatcherQualifier private val ioDispatcher: CoroutineDispatcher,
 ) : BreedListRepository {
+
+    /**
+     * for caching breed list, and having single source of truth, insert breeds inside database
+     *  solutions:
+     *  - we could fetch data directly from endpoint and provide it to up layers
+     *      -- this approach just need to map server response data
+     *  - we could fetch data from endpoint and insert all of them into database and provide breed list
+     *
+     * */
     override suspend fun fetchBreeds(): Flow<List<BreedModel>> {
         return localDatabase
             .getBreeds()
@@ -48,9 +57,6 @@ class BreedListRepositoryImpl @Inject constructor(
                 emitAll(flowOf(emptyList()))
             }
     }
-
-    private fun convertSubBreedsToString(subBreeds: List<String>): String =
-        subBreeds.joinToString(",")
 
     private suspend fun checkResponseAndInsertToDatabase(remoteResponse: DataResult<BreedResponseModel>) =
         withContext(ioDispatcher) {
@@ -73,7 +79,7 @@ class BreedListRepositoryImpl @Inject constructor(
                 ?.map { breed ->
                     BreedEntity(
                         title = breed.title,
-                        subBreeds = convertSubBreedsToString(breed.subBreeds),
+                        subBreeds = breed.subBreeds.joinToString(","),
                     )
                 } ?: emptyList()
         }

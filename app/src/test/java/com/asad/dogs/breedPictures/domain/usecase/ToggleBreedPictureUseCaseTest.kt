@@ -10,7 +10,7 @@ import org.junit.Test
 
 class ToggleBreedPictureUseCaseTest {
 
-    val repository = mockk<BreedPictureRepository>()
+    private val repository = mockk<BreedPictureRepository>()
     lateinit var toggleBreedPictureUseCase: ToggleBreedPictureUseCase
 
     @Before
