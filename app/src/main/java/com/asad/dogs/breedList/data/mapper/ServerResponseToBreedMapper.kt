@@ -18,8 +18,7 @@ import javax.inject.Inject
 @ViewModelScoped
 class ServerResponseToBreedMapper @Inject constructor(
     private val mapper: BreedListMapper,
-) :
-    CustomMapper<BreedResponseModel, BreedResponse> {
+) : CustomMapper<BreedResponseModel, BreedResponse> {
 
     override fun mapTo(entity: BreedResponseModel): BreedResponse {
         return BreedResponse(

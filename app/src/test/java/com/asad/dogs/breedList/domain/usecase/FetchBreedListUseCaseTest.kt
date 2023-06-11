@@ -1,6 +1,5 @@
 package com.asad.dogs.breedList.domain.usecase
 
-import com.asad.core.util.MainDispatcherRule
 import com.asad.dogs.breedList.domain.model.BreedModel
 import com.asad.dogs.breedList.domain.repository.BreedListRepository
 import com.google.common.truth.Truth.assertThat
@@ -10,15 +9,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 class FetchBreedListUseCaseTest {
 
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule()
-
     private val repository = mockk<BreedListRepository>()
+
+    /** SUT system under test*/
     lateinit var fetchBreedListUseCase: FetchBreedListUseCase
 
     @Before
@@ -27,21 +24,23 @@ class FetchBreedListUseCaseTest {
     }
 
     @Test
-    fun whenFetchBreedUseCaseCalled_thenShouldReturnFlowOfItsData() = runTest {
-        val currentBreed = BreedModel(
+    fun whenFetchBreedUseCaseCalled_thenShouldReturnDataFlow() = runTest {
+        /**Arrange*/
+        val fakeBreedModel = BreedModel(
             title = "akito",
             subBreeds = emptyList(),
             hasSubBreed = false,
-            isFavorite = false,
         )
 
-        val list = listOf(currentBreed)
+        val fakeDataResult = listOf(fakeBreedModel)
 
-        coEvery { repository.fetchBreeds() } returns flow { emit(list) }
+        coEvery { repository.fetchBreeds() } returns flow { emit(fakeDataResult) }
 
+        /** Act*/
         val result = fetchBreedListUseCase.invoke()
 
-        assertThat(result.first()).isEqualTo(list)
+        /** Assert*/
+        assertThat(result.first()).isEqualTo(fakeDataResult)
     }
 
     @Test
