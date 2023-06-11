@@ -8,5 +8,7 @@
 
 
     <string name="breed_list_screen">BreedListScreen</string>
+    <string name="arrow_back_content_desc">arrow back</string>
+    <string name="favorite_icon_content_desc">favorite icon</string>
 
 </resources>

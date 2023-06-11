@@ -8,13 +8,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.asad.dogs.R
 
 @Composable
 fun BreedListFavoriteIconComponent() {
     Icon(
         imageVector = Icons.Rounded.Favorite,
-        contentDescription = "favorite_icon",
+        contentDescription = stringResource(id = R.string.favorite_icon_content_desc),
         modifier = Modifier
             .requiredWidth(24.dp)
             .requiredHeight(48.dp),

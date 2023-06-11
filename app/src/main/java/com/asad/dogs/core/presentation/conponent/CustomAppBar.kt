@@ -35,11 +35,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.asad.dogs.R
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -106,7 +108,7 @@ fun BoxScope.CustomAppBar(
                 CustomTouchableScale(onClick = it) {
                     Icon(
                         imageVector = Icons.Rounded.ArrowBack,
-                        contentDescription = null,
+                        contentDescription = stringResource(id = R.string.arrow_back_content_desc),
                         modifier = Modifier
                             .requiredWidth(24.dp)
                             .requiredHeight(48.dp),

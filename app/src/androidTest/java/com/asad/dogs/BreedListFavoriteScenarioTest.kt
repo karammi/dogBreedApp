@@ -56,11 +56,9 @@ class BreedListFavoriteScenarioTest {
         hiltRule.inject()
         mockWebServer.start(port = 8001)
 
-        composeTestRule.mainClock.autoAdvance = true
+//        composeTestRule.mainClock.autoAdvance = true
         composeTestRule.activity.setContent {
-//            MaterialTheme {
             DogBreedsApp()
-//            }
         }
 
         idlingResources = OkHttp3IdlingResource.create("okhttp", okHttpClient)
@@ -72,13 +70,14 @@ class BreedListFavoriteScenarioTest {
     }
 
     @Test
-    fun whenChooseBreedListItem_thenAddPictureToFavoriteScreen() {
+    fun addBreedPicturesToFavoriteBreedPicturesScenario() {
         mockWebServer.dispatcher = MockServerDispatcher().successDispatcher(serviceMap)
         composeTestRule.apply {
-            onNodeWithText("Dogs App")
+            /** Breed List Screen */
+            onNodeWithText(activity.getString(R.string.app_name))
                 .assertIsDisplayed()
 
-            onNodeWithContentDescription("favorite_icon")
+            onNodeWithContentDescription(activity.getString(R.string.favorite_icon_content_desc))
                 .assertIsDisplayed()
 
             waitUntil(3000) {
@@ -95,12 +94,19 @@ class BreedListFavoriteScenarioTest {
                 .assertAny(hasContentDescription("card_breed_model"))
                 .fetchSemanticsNodes().size > 1
 
+            /**
+             * Inside  Breed List Screen user will click on an item, such as AKITA and should navigate to
+             * breed picture screen and see breed pictures
+             * */
             onNodeWithText("Akita")
                 .performClick()
 
             onNodeWithText("Akita")
                 .assertIsDisplayed()
 
+            /**
+             * Here user is on Breed Picture screen
+             * */
             onNodeWithContentDescription("BreedPictureScreen")
                 .assertExists()
                 .assertIsDisplayed()
@@ -117,6 +123,10 @@ class BreedListFavoriteScenarioTest {
                     .size == 1
             }
 
+            /**
+             * user will toggle breed pictures
+             * */
+
             onNodeWithContentDescription("breed_picture_1")
                 .performClick()
 
@@ -129,7 +139,47 @@ class BreedListFavoriteScenarioTest {
             onNodeWithContentDescription("CustomTouchableScale")
                 .performClick()
 
-            // todo should navigate up and check it has selected items or not
+            waitUntil(1000) {
+                onAllNodesWithContentDescription(activity.getString(R.string.arrow_back_content_desc))
+                    .fetchSemanticsNodes()
+                    .size == 1
+            }
+
+            /**
+             * user will navigate back to breed list screen
+             * */
+            onNodeWithContentDescription(activity.getString(R.string.arrow_back_content_desc))
+                .performClick()
+
+            waitUntil(1000) {
+                onAllNodesWithContentDescription(activity.getString(R.string.app_name))
+                    .fetchSemanticsNodes()
+                    .size == 1
+            }
+
+            /**
+             * User will navigate to favorite breed pictures by clicking the favorite icon
+             * */
+            waitUntil(1000) {
+                onAllNodesWithContentDescription(activity.getString(R.string.favorite_icon_content_desc))
+                    .fetchSemanticsNodes()
+                    .size == 1
+            }
+
+            /**click on favorite icon */
+            onNodeWithContentDescription(activity.getString(R.string.favorite_icon_content_desc))
+                .performClick()
+
+            /**
+             *
+             * In Favorite breed picture screen user will see all favorite breed pictures and and their names
+             *
+             * */
+            waitUntil(5000) {
+                onAllNodesWithContentDescription(activity.getString(R.string.favorite_title_screen))
+                    .fetchSemanticsNodes()
+                    .size == 1
+            }
         }
     }
 }
