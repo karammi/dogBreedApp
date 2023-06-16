@@ -1,4 +1,4 @@
-package com.asad.dogs.breedList.di
+package com.asad.dogs.breedList.di.module
 
 import com.asad.dogs.breedList.data.dataSource.local.dao.BreedListDao
 import com.asad.dogs.breedList.data.dataSource.remote.api.BreedListApi

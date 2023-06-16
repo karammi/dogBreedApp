@@ -9,7 +9,9 @@ import com.asad.dogs.breedList.data.mapper.DatabaseEntityToBreedMapper
 import com.asad.dogs.breedList.data.mapper.ServerResponseToBreedMapper
 import com.asad.dogs.breedList.domain.repository.BreedListRepository
 import com.asad.dogs.core.data.dataSource.DataResult
+import com.asad.dogs.core.data.util.ResponseStatus
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -52,16 +54,20 @@ class BreedListRepositoryImplTest {
 
 class FakeBreedListRemoteDataSourceImpl : BreedListRemoteDataSource {
     override suspend fun fetchBreedList(): DataResult<BreedResponseModel> {
-        TODO("Not yet implemented")
+        return DataResult.Success(
+            BreedResponseModel(
+                message = mapOf(),
+                status = ResponseStatus.success,
+            ),
+        )
     }
 }
 
 class FakeBreedListLocalDataSourceImpl : BreedListLocalDataSource {
     override suspend fun getBreeds(): Flow<List<BreedEntity>> {
-        TODO("Not yet implemented")
+        return flow { emit(emptyList()) }
     }
 
     override suspend fun insertBreedList(breeds: List<BreedEntity>) {
-        TODO("Not yet implemented")
     }
 }
