@@ -44,21 +44,21 @@ class FavoritePicturesDaoTest {
 
     @Test
     fun fetchFavoritePictures_shouldReturnAllFavoriteBreeds() = runTest {
-        val temp = sut.fetchFavoritePictures()
-        assertThat(temp).hasSize(0)
+        val favoritePictureEntities = sut.fetchFavoritePictures()
+        assertThat(favoritePictureEntities).hasSize(0)
     }
 
     @Test
     fun fetchFavoritePicturesWithEmpty_shouldReturnAllFavoriteBreeds() = runTest {
-        val temp = sut.fetchFavoritePictures("akita")
-        assertThat(temp).hasSize(0)
+        val favoritePictureEntities = sut.fetchFavoritePictures("akita")
+        assertThat(favoritePictureEntities).hasSize(0)
     }
 
     @Test
     fun fetchFavoritePicturesWithData_shouldReturnAllFavoriteBreeds() = runTest {
         dao.addBreedPicture(PictureEntity("akita", "image"))
 
-        val temp = sut.fetchFavoritePictures("akita")
-        assertThat(temp).hasSize(1)
+        val favoritePictureEntities = sut.fetchFavoritePictures("akita")
+        assertThat(favoritePictureEntities).hasSize(1)
     }
 }

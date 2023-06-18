@@ -1,14 +1,10 @@
 package com.asad.dogs.breedList.data.dataSource.local
 
-import com.asad.dogs.breedList.data.dataSource.local.dao.BreedListDao
+import com.asad.dogs.breedList.data.dataSource.local.dao.ColdFakeBreedListDao
 import com.asad.dogs.breedList.data.dataSource.local.entity.BreedEntity
 import com.google.common.truth.Truth.assertThat
-import io.mockk.coEvery
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -16,53 +12,44 @@ class BreedListLocalDataSourceImplTest {
 
     // System under test
     private lateinit var sut: BreedListLocalDataSource
-    private lateinit var fakeBreedListDao: FakeBreedListDao
+    private lateinit var coldFakeBreedListDao: ColdFakeBreedListDao
 
     @Before
     fun setup() {
-        fakeBreedListDao = FakeBreedListDao()
-        sut = BreedListLocalDataSourceImpl(fakeBreedListDao)
-    }
-
-    @After
-    fun tearDown() {
+        coldFakeBreedListDao = ColdFakeBreedListDao()
+        sut = BreedListLocalDataSourceImpl(coldFakeBreedListDao)
     }
 
     @Test
-    fun getBreedsShouldReturnListOfBreedEntities() = runTest {
+    fun whenGetBreedsCalled_ShouldReturnListOfBreeds() = runTest {
         /**Arrange*/
+        val breed1 = BreedEntity("akita", "")
+        val breed2 = BreedEntity("amircan", "sub1")
+        val mockedData = listOf(breed1, breed2)
 
-        val mockedData = listOf(BreedEntity("akita", ""))
-
-//        coEvery { breedListDao.getBreeds() } returns flow { emit(mockedData) }
         /**Act*/
-        val result = sut.getBreeds()
+        val first = sut.getBreeds().first()
 
         /**Assert*/
-        assertThat(result.first()).isEqualTo(mockedData)
+        assertThat(first).isEqualTo(mockedData)
+        assertThat(first).hasSize(2)
+        assertThat(first.first()).isEqualTo(breed1)
+        assertThat(first.last()).isEqualTo(breed2)
     }
 
     @Test
-    fun whenInsertBreeds_thenShouldCollectBreeds() = runTest {
+    fun whenInsertBreeds_thenShouldCollectNewBreeds() = runTest {
         /**Arrange*/
+        val breed1 = BreedEntity("haski", "sub1")
+        val mockedData = listOf(breed1)
+
         /**Act*/
+        sut.insertBreedList(mockedData)
+
         /**Assert*/
+        val values = sut.getBreeds().first()
+        assertThat(values).hasSize(3)
+        assertThat(values[2]).isEqualTo(mockedData.first())
     }
 }
 
-class FakeBreedListDao : BreedListDao {
-
-    val breedList = mutableListOf<BreedEntity>()
-
-    override fun getBreeds(): Flow<List<BreedEntity>> {
-        return flow { emit(breedList) }
-    }
-
-    override suspend fun insertBreed(breed: BreedEntity) {
-        breedList.add(breed)
-    }
-
-    override suspend fun insertBreedList(breeds: List<BreedEntity>) {
-        breedList.addAll(breeds)
-    }
-}
