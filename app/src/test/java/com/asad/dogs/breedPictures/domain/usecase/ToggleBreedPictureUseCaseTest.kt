@@ -19,19 +19,22 @@ class ToggleBreedPictureUseCaseTest {
     }
 
     @Test
-    fun test() = runTest {
-        val breedName = "akita"
-        val breedUrl = "fake_url"
+    fun `toggleBreedPicture should call repository's toggleBreedPicture with the correct parameters`() =
+        runTest {
+            // Arrange
+            val breedName = "akita"
+            val breedUrl = "fake_url"
 
-        coEvery {
-            repository.toggleBreedPicture(
-                breedName = breedName,
-                breedUrl = breedUrl,
-            )
-        } returns Unit
+            coEvery {
+                repository.toggleBreedPicture(breedName, breedUrl)
+            } returns Unit
 
-        toggleBreedPictureUseCase.invoke(breedName = breedName, breedUrl = breedUrl)
+            // Act
+            toggleBreedPictureUseCase.invoke(breedName, breedUrl)
 
-        coVerify(exactly = 1) { repository.toggleBreedPicture(breedUrl = breedUrl, breedName = breedUrl) }
-    }
+            // Assert
+            coVerify(exactly = 1) {
+                repository.toggleBreedPicture(breedName, breedUrl)
+            }
+        }
 }

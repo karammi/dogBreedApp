@@ -8,7 +8,7 @@ import com.asad.dogs.breedPictures.domain.usecase.FetchBreedPicturesUseCase
 import com.asad.dogs.breedPictures.domain.usecase.ToggleBreedPictureUseCase
 import com.asad.dogs.core.data.util.ResponseStatus
 import com.asad.dogs.core.presentation.UiState
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
@@ -72,7 +72,7 @@ class BreedPictureViewModelTest {
         viewModel.uiState.test {
             val emission = awaitItem()
 
-            Truth.assertThat(emission.breedPictures).isEqualTo(expectedUiState)
+            assertThat(emission.breedPictures).isEqualTo(expectedUiState)
 
             cancelAndConsumeRemainingEvents()
         }

@@ -1,37 +1,55 @@
 package com.asad.dogs.breedList.data.dataSource.local
 
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import com.asad.dogs.breedList.data.dataSource.local.dao.BreedListDao
-import com.asad.dogs.core.data.dataSource.local.DogBreedDatabase
+import com.asad.dogs.breedList.data.dataSource.local.dao.ColdFakeBreedListDao
+import com.asad.dogs.breedList.data.dataSource.local.entity.BreedEntity
+import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
 class BreedListLocalDataSourceImplTest {
-    private lateinit var database: DogBreedDatabase
-    private lateinit var breedListDao: BreedListDao
+
+    // System under test
+    private lateinit var sut: BreedListLocalDataSource
+    private lateinit var coldFakeBreedListDao: ColdFakeBreedListDao
 
     @Before
     fun setup() {
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            DogBreedDatabase::class.java,
-        ).allowMainThreadQueries().build()
-
-        breedListDao = database.getBreedListDao()
-    }
-
-    @After
-    fun tearDown() {
-        database.close()
+        coldFakeBreedListDao = ColdFakeBreedListDao()
+        sut = BreedListLocalDataSourceImpl(coldFakeBreedListDao)
     }
 
     @Test
-    fun whenInsertBreeds_thenShouldCollectBreeds() = runTest {
+    fun whenGetBreedsCalled_ShouldReturnListOfBreeds() = runTest {
         /**Arrange*/
+        val breed1 = BreedEntity("akita", "")
+        val breed2 = BreedEntity("amircan", "sub1")
+        val mockedData = listOf(breed1, breed2)
+
         /**Act*/
+        val first = sut.getBreeds().first()
+
         /**Assert*/
+        assertThat(first).isEqualTo(mockedData)
+        assertThat(first).hasSize(2)
+        assertThat(first.first()).isEqualTo(breed1)
+        assertThat(first.last()).isEqualTo(breed2)
+    }
+
+    @Test
+    fun whenInsertBreeds_thenShouldCollectNewBreeds() = runTest {
+        /**Arrange*/
+        val breed1 = BreedEntity("haski", "sub1")
+        val mockedData = listOf(breed1)
+
+        /**Act*/
+        sut.insertBreedList(mockedData)
+
+        /**Assert*/
+        val values = sut.getBreeds().first()
+        assertThat(values).hasSize(3)
+        assertThat(values[2]).isEqualTo(mockedData.first())
     }
 }
+

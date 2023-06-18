@@ -1,12 +1,10 @@
 package com.asad.dogs.breedPictures.data.repository
 
 import com.asad.dogs.breedPictures.data.dataSource.local.BreedPictureLocalDataSource
-import com.asad.dogs.breedPictures.data.dataSource.local.entity.PictureEntity
 import com.asad.dogs.breedPictures.data.dataSource.remote.BreedPictureRemoteDataSource
-import com.asad.dogs.breedPictures.data.mapper.ServerResponseToBreedPictureMapper
+import com.asad.dogs.breedPictures.data.mapper.DatabasePictureEntityToModelMapper
 import com.asad.dogs.breedPictures.domain.repository.BreedPictureRepository
 import com.asad.dogs.core.data.dataSource.DataResult
-import com.asad.dogs.core.data.mapper.CustomMapper
 import com.asad.dogs.core.di.qualifier.IODispatcherQualifier
 import com.asad.dogs.favoritePictures.domain.model.FavoritePictureModel
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -24,7 +22,6 @@ import javax.inject.Inject
 class BreedPictureRepositoryImpl @Inject constructor(
     private val remote: BreedPictureRemoteDataSource,
     private val localDatabase: BreedPictureLocalDataSource,
-    private val mapper: ServerResponseToBreedPictureMapper,
     private val pictureEntityMapper: DatabasePictureEntityToModelMapper,
     @IODispatcherQualifier
     private val ioDispatcher: CoroutineDispatcher,
@@ -85,16 +82,3 @@ class BreedPictureRepositoryImpl @Inject constructor(
     }
 }
 
-@ViewModelScoped
-class DatabasePictureEntityToModelMapper @Inject constructor() :
-    CustomMapper<PictureEntity, FavoritePictureModel> {
-    override fun mapTo(entity: PictureEntity): FavoritePictureModel {
-        return with(entity) {
-            FavoritePictureModel(
-                breedName = breedName,
-                breedUrl = breedUrl,
-                isFavorite = false,
-            )
-        }
-    }
-}

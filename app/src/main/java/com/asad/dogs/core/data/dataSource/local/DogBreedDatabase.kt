@@ -8,7 +8,7 @@ import com.asad.dogs.breedPictures.data.dataSource.local.dao.BreedPictureDao
 import com.asad.dogs.breedPictures.data.dataSource.local.entity.PictureEntity
 import com.asad.dogs.favoritePictures.data.dataSource.local.dao.FavoritePicturesDao
 
-@Database(version = 1, entities = [BreedEntity::class, PictureEntity::class], exportSchema = false)
+@Database(version = 3, entities = [BreedEntity::class, PictureEntity::class], exportSchema = false)
 abstract class DogBreedDatabase : RoomDatabase() {
 
     abstract fun getBreedListDao(): BreedListDao

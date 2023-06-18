@@ -1,10 +1,11 @@
 package com.asad.dogs.core.di.module
 
+import android.content.Context
 import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
 import com.asad.dogs.core.data.dataSource.local.DogBreedDatabase
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
@@ -17,8 +18,8 @@ import javax.inject.Singleton
 object FakeDatabaseModule {
     @Singleton
     @Provides
-    fun provideDatabase() = Room.inMemoryDatabaseBuilder(
-        context = ApplicationProvider.getApplicationContext(),
+    fun provideDatabase(@ApplicationContext applicaiton: Context) = Room.inMemoryDatabaseBuilder(
+        context = applicaiton,
         DogBreedDatabase::class.java,
     ).build()
 }

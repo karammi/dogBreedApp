@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import androidx.room.Upsert
 import com.asad.dogs.breedPictures.data.dataSource.local.entity.PictureEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -15,9 +14,6 @@ interface BreedPictureDao {
 
     @Insert(entity = PictureEntity::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun addBreedPicture(entity: PictureEntity)
-
-    @Upsert(entity = PictureEntity::class)
-    suspend fun upsertBreedPicture(entity: PictureEntity)
 
     @Delete(entity = PictureEntity::class)
     suspend fun deleteBreedPicture(entity: PictureEntity)

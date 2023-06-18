@@ -13,16 +13,18 @@ import com.asad.dogs.breedPictures.data.dataSource.local.dao.PictureConstants
         PictureConstants.BREED_NAME_COLUMN,
         PictureConstants.BREED_URL_COLUMN,
     ],
-    foreignKeys = [
-        ForeignKey(
-            entity = BreedEntity::class,
-            parentColumns = [BreedListConstants.BREED_TITLE_COLUMN],
-            childColumns = [PictureConstants.BREED_NAME_COLUMN],
-            onDelete = ForeignKey.CASCADE,
-        ),
-    ],
+//    foreignKeys = [
+//        ForeignKey(
+//            entity = BreedEntity::class,
+//            parentColumns = [BreedListConstants.BREED_TITLE_COLUMN],
+//            childColumns = [PictureConstants.BREED_NAME_COLUMN],
+//            onDelete = ForeignKey.CASCADE,
+//        ),
+//    ],
 )
 data class PictureEntity(
+//    @ColumnInfo(name = BreedListConstants.BREED_TITLE_COLUMN)
+//    val title: String,
     @ColumnInfo(name = PictureConstants.BREED_NAME_COLUMN)
     val breedName: String,
     @ColumnInfo(name = PictureConstants.BREED_URL_COLUMN)

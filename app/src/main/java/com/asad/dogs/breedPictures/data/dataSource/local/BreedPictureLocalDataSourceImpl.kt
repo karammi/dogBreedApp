@@ -14,6 +14,7 @@ class BreedPictureLocalDataSourceImpl @Inject constructor(
         breedPictureDao
             .toggleBreedPicture(
                 entity = PictureEntity(
+//                    title = breedName,
                     breedName = breedName,
                     breedUrl = breedUrl,
                 ),
