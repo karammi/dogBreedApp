@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.asad.dogs.core.presentation.conponent.CustomNetworkImage
+import com.asad.dogs.core.presentation.component.CustomNetworkImage
 import com.asad.dogs.favoritePictures.domain.model.FavoritePictureModel
 
 @Composable

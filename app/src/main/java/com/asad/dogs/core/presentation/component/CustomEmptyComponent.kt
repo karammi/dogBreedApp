@@ -1,7 +1,6 @@
-package com.asad.dogs.core.presentation.conponent
+package com.asad.dogs.core.presentation.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,11 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.asad.dogs.R
 
 @Composable
-fun CustomErrorComponent(errorTitle: String, onRetryClicked: () -> Unit) {
+fun CustomEmptyComponent(title: String = "Ops, There isn't any data") {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -27,12 +28,16 @@ fun CustomErrorComponent(errorTitle: String, onRetryClicked: () -> Unit) {
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             Image(painter = painterResource(id = R.drawable.dog), contentDescription = "dog_error")
+
             Spacer(modifier = Modifier.height(12.dp))
+
             Text(
-                text = errorTitle,
+                text = title,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onRetryClicked.invoke() },
+                    .semantics {
+                        contentDescription = "empty_component"
+                    },
             )
         }
     }
