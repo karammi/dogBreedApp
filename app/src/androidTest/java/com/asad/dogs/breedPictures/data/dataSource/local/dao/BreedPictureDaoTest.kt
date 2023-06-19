@@ -10,6 +10,7 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -42,6 +43,7 @@ class BreedPictureDaoTest {
     }
 
     // addBreedPicture
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun addBreedPicture_shouldBeInsideTheFavoriteBreed() = runTest {
         val entity = PictureEntity(breedName = "akita", "sample url")
@@ -56,6 +58,7 @@ class BreedPictureDaoTest {
     }
 
     // deleteBreedPicture
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun deleteBreedItem_shouldDeleteBreedItem() = runTest(UnconfinedTestDispatcher()) {
         val entity = PictureEntity(breedName = "akita", "sample url")
@@ -78,6 +81,7 @@ class BreedPictureDaoTest {
     }
 
     // getCurrentBreedPicture
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getCurrentBreedPicture_shouldReturnSelectedBreedPicture() = runTest {
         val breedName = "akita"
@@ -95,6 +99,7 @@ class BreedPictureDaoTest {
         job.cancel()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getBreedPictureThatNotExist_shouldReturnEmpty() = runTest {
         val breedName = "akita"
@@ -113,6 +118,7 @@ class BreedPictureDaoTest {
     }
 
     // getFavoriteBreedPictures
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getFavoriteBreedPictures_shouldReturnFavoriteBreedPictures() =
         runTest(UnconfinedTestDispatcher()) {
@@ -133,6 +139,7 @@ class BreedPictureDaoTest {
             }
         }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun toggleBreedPicture_shouldInsertAddFavoriteBreedPicture() = runTest {
         val breedName = "akita"
@@ -148,6 +155,7 @@ class BreedPictureDaoTest {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun toggleBreedPicture_shouldRemoveFavoriteBreedPicture() = runTest {
         val breedName = "akita"
@@ -161,11 +169,11 @@ class BreedPictureDaoTest {
             assertThat(firstEmit).hasSize(1)
             assertThat(firstEmit.first()).isEqualTo(currentPictureEntity)
 
+            sut.toggleBreedPicture(currentPictureEntity)
+
             val secondEmit = awaitItem()
             assertThat(secondEmit).hasSize(0)
         }
-
-        sut.toggleBreedPicture(currentPictureEntity)
     }
 
     // toggleBreedPicture
