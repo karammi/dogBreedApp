@@ -128,6 +128,8 @@ fun BoxScope.CustomAppBar(
                 },
             )
 
+            Spacer(modifier = Modifier.weight(1f))
+
             onIconClicked?.let {
                 CustomTouchableScale(onClick = it) {
                     trailingContent?.invoke()
