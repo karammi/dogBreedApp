@@ -56,6 +56,7 @@ class BreedPictureViewModel @Inject constructor(
         viewModelScope.launch {
             fetchBreedPicturesUseCase
                 .observeDataFlow()
+                .flowOn(ioDispatcher)
                 .catch { exception -> processCaughtException(exception = exception) }
                 .stateIn(
                     scope = viewModelScope,

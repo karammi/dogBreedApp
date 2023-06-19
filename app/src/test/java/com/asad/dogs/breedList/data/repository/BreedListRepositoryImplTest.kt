@@ -12,10 +12,7 @@ import com.asad.dogs.core.data.dataSource.DataResult
 import com.asad.dogs.core.data.util.ResponseStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Test
 
 class BreedListRepositoryImplTest {
     private lateinit var remote: BreedListRemoteDataSource
@@ -37,29 +34,33 @@ class BreedListRepositoryImplTest {
 
         sut = BreedListRepositoryImpl(
             remote = remote,
-            localDatabase = database,
             serverResponseMapper,
-            databaseEntityMapper,
-            StandardTestDispatcher(),
         )
     }
 
-    @Test
-    fun whenFetchBreeds_shouldReturnListOfBreeds() = runTest {
-        /**Arrange*/
-        /**Act*/
-        /**Assert*/
-    }
+    /*    @Test
+        fun whenFetchBreeds_shouldReturnListOfBreeds() = runTest {
+            */
+    /**Arrange*//*
+        */
+    /**Act*//*
+        */
+    /**Assert*//*
+    }*/
 }
 
 class FakeBreedListRemoteDataSourceImpl : BreedListRemoteDataSource {
-    override suspend fun fetchBreedList(): DataResult<BreedResponseModel> {
-        return DataResult.Success(
-            BreedResponseModel(
-                message = mapOf(),
-                status = ResponseStatus.success,
-            ),
-        )
+    override suspend fun fetchBreedList(): Flow<DataResult<BreedResponseModel>> {
+        return flow {
+            emit(
+                DataResult.Success(
+                    BreedResponseModel(
+                        message = mapOf(),
+                        status = ResponseStatus.success,
+                    ),
+                ),
+            )
+        }
     }
 }
 
