@@ -3,8 +3,8 @@ package com.asad.dogs.breedPictures.presentation.viewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.asad.dogs.breedPictures.domain.usecase.ToggleBreedPictureUseCase
 import com.asad.dogs.breedPictures.domain.usecase.FetchBreedPicturesUseCase
+import com.asad.dogs.breedPictures.domain.usecase.ToggleBreedPictureUseCase
 import com.asad.dogs.breedPictures.presentation.util.BreedPictureConstants
 import com.asad.dogs.core.data.dataSource.DataResult
 import com.asad.dogs.core.di.qualifier.IODispatcherQualifier
