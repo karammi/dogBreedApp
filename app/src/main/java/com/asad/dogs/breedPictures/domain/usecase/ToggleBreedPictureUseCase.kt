@@ -11,7 +11,6 @@ import javax.inject.Inject
 class ToggleBreedPictureUseCase @Inject constructor(
     private val repository: BreedPictureRepository,
 ) {
-
     suspend operator fun invoke(breedName: String, breedUrl: String) {
         repository.toggleBreedPicture(breedName = breedName, breedUrl = breedUrl)
     }
