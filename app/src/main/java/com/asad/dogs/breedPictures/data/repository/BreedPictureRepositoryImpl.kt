@@ -33,9 +33,12 @@ class BreedPictureRepositoryImpl @Inject constructor(
         get() = _favoritePicturesFlow
 
     override suspend fun fetchBreedPictures(breedName: String) {
-        val fetchFromLocal = localDatabase.getFavoriteBreedPictures(breedName)
+        val databaseResponse = localDatabase
+            .getFavoriteBreedPictures(breedName)
             .map { result -> result.map { pictureEntityMapper.mapTo(it) } }
-        val remoteResponse = remote.fetchBreedPictures(breedName = breedName)
+
+        val remoteResponse = remote
+            .fetchBreedPictures(breedName = breedName)
             .map {
                 it.value?.message?.let { list ->
                     serverResponseToFavoriteModel(
@@ -47,7 +50,7 @@ class BreedPictureRepositoryImpl @Inject constructor(
 
         combineTransform(
             remoteResponse,
-            fetchFromLocal,
+            databaseResponse,
         ) { remote, local ->
 
             val result = remote.map {
@@ -81,4 +84,3 @@ class BreedPictureRepositoryImpl @Inject constructor(
         }
     }
 }
-
