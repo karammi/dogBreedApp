@@ -1,4 +1,4 @@
-package com.asad.dogs.core.presentation.conponent
+package com.asad.dogs.core.presentation.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

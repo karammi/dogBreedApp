@@ -11,10 +11,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.asad.dogs.breedPictures.presentation.component.BreedPicturesContent
 import com.asad.dogs.breedPictures.presentation.viewModel.BreedPictureViewModel
 import com.asad.dogs.core.presentation.UiState
-import com.asad.dogs.core.presentation.conponent.CustomAppBar
-import com.asad.dogs.core.presentation.conponent.CustomEmptyComponent
-import com.asad.dogs.core.presentation.conponent.CustomErrorComponent
-import com.asad.dogs.core.presentation.conponent.CustomLoadingComponent
+import com.asad.dogs.core.presentation.component.CustomAppBar
+import com.asad.dogs.core.presentation.component.CustomEmptyComponent
+import com.asad.dogs.core.presentation.component.CustomErrorComponent
+import com.asad.dogs.core.presentation.component.CustomLoadingComponent
 import com.asad.dogs.core.presentation.util.ComposeUtil
 
 @Composable

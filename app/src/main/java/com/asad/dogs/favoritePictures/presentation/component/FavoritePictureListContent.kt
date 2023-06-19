@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.asad.dogs.core.presentation.conponent.CustomNetworkImage
+import com.asad.dogs.core.presentation.component.CustomNetworkImage
 import com.asad.dogs.favoritePictures.domain.model.FavoritePictureModel
 
 @Composable

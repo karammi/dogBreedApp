@@ -1,4 +1,4 @@
-package com.asad.dogs.core.presentation.conponent
+package com.asad.dogs.core.presentation.component
 
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.Spring

@@ -1,4 +1,4 @@
-package com.asad.dogs.core.presentation.conponent
+package com.asad.dogs.core.presentation.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
