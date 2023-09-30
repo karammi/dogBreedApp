@@ -3,6 +3,8 @@
 An app that would use the Dog Breeds API to allow users to browse through the list of dog breeds,
 their pictures, and add pictures to favorites that is developed based on Clean architecture.
 
+##I'm fully aware that this implementation might appear over-engineered, but my intention is to showcase a comprehensive representation of all layers in action.
+
 
 ## Clean architecture
 
